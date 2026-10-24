@@ -7,7 +7,7 @@ from typing import Any
 import joblib
 import pandas as pd
 from sklearn.compose import ColumnTransformer
-from sklearn.ensemble import RandomForestClassifier
+from sklearn.ensemble import HistGradientBoostingClassifier, RandomForestClassifier
 from sklearn.linear_model import LogisticRegression
 from sklearn.pipeline import Pipeline
 from sklearn.preprocessing import OneHotEncoder, StandardScaler
@@ -24,8 +24,32 @@ def make_estimator(model_cfg: dict[str, Any]) -> Any:
             class_weight=model_cfg.get("class_weight", "balanced"),
             random_state=random_state,
         )
+    if name in {"xgboost", "xgb"}:
+        from xgboost import XGBClassifier
+
+        return XGBClassifier(
+            n_estimators=int(model_cfg.get("n_estimators", 200)),
+            max_depth=int(model_cfg.get("max_depth", 6)),
+            learning_rate=float(model_cfg.get("learning_rate", 0.1)),
+            subsample=float(model_cfg.get("subsample", 0.9)),
+            colsample_bytree=float(model_cfg.get("colsample_bytree", 0.9)),
+            min_child_weight=int(model_cfg.get("min_child_weight", 5)),
+            eval_metric="logloss",
+            n_jobs=-1,
+            random_state=random_state,
+            scale_pos_weight=float(model_cfg.get("scale_pos_weight", 4.4)),
+        )
+    if name in {"hist_gbdt", "hist_gradient_boosting"}:
+        return HistGradientBoostingClassifier(
+            max_depth=int(model_cfg.get("max_depth", 8)),
+            learning_rate=float(model_cfg.get("learning_rate", 0.1)),
+            max_iter=int(model_cfg.get("max_iter", 200)),
+            min_samples_leaf=int(model_cfg.get("min_samples_leaf", 20)),
+            random_state=random_state,
+            class_weight=model_cfg.get("class_weight", "balanced"),
+        )
     if name != "random_forest":
-        raise ValueError(f"Unsupported model.name={name!r} for the DVC train stage")
+        raise ValueError(f"Unsupported model.name={name!r}")
     return RandomForestClassifier(
         n_estimators=int(model_cfg.get("n_estimators", 200)),
         max_depth=int(model_cfg.get("max_depth", 8)),
