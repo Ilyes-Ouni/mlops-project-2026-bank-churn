@@ -28,7 +28,7 @@ pre-commit install
 python scripts/download_raw_data.py
 dvc checkout
 dvc repro
-pytest
+pytest --cov=bank_churn
 ```
 
 `dvc repro` runs `preprocess → train → evaluate`. Metrics land in `metrics/metrics.json` (F1, ROC-AUC, precision, recall). Processed CSVs and `models/model.joblib` stay in the DVC cache, not in Git.
