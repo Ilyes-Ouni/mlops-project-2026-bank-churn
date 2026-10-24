@@ -3,7 +3,34 @@ data:
   test_size: 0.2
   random_state: 42
 
+features:
+  drop_columns:
+    - customer_id
+    - branch_code
+    - city
+  numeric:
+    - vintage
+    - age
+    - dependents
+    - current_balance
+    - previous_month_end_balance
+    - average_monthly_balance_prevQ
+    - average_monthly_balance_prevQ2
+    - current_month_credit
+    - previous_month_credit
+    - current_month_debit
+    - previous_month_debit
+    - current_month_balance
+    - previous_month_balance
+    - recency_days
+  categorical:
+    - gender
+    - occupation
+    - customer_nw_category
+
 model:
   name: random_forest
   n_estimators: 200
   max_depth: 8
+  min_samples_leaf: 5
+  class_weight: balanced

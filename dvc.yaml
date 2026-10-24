@@ -1,0 +1,45 @@
+stages:
+  preprocess:
+    cmd: python pipelines/preprocess.py
+    deps:
+      - pipelines/preprocess.py
+      - src/bank_churn/data/load.py
+      - src/bank_churn/data/preprocess.py
+      - src/bank_churn/features/build.py
+      - data/raw/churn.csv
+    params:
+      - data
+      - features
+    outs:
+      - data/processed/train.csv
+      - data/processed/test.csv
+      - data/processed/feature_meta.json
+  train:
+    cmd: python pipelines/train.py
+    deps:
+      - pipelines/train.py
+      - src/bank_churn/models/train.py
+      - data/processed/train.csv
+      - data/processed/feature_meta.json
+    params:
+      - model
+    outs:
+      - models/model.joblib
+  evaluate:
+    cmd: python pipelines/evaluate.py
+    deps:
+      - pipelines/evaluate.py
+      - src/bank_churn/models/evaluate.py
+      - models/model.joblib
+      - data/processed/test.csv
+      - data/processed/feature_meta.json
+    metrics:
+      - metrics/metrics.json:
+          cache: false
+    plots:
+      - metrics/roc.json:
+          cache: false
+          x: fpr
+          y: tpr
+      - metrics/confusion_matrix.json:
+          cache: false

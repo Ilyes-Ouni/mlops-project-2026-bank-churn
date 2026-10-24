@@ -1,0 +1,136 @@
+schema: '2.0'
+stages:
+  preprocess:
+    cmd: python pipelines/preprocess.py
+    deps:
+    - path: data/raw/churn.csv
+      hash: md5
+      md5: 2ff9e2bff089eedef788338e8bc0d8e7
+      size: 3744633
+    - path: pipelines/preprocess.py
+      hash: md5
+      md5: 99f526008ba69e5cbce358c7c3272ca1
+      size: 279
+    - path: src/bank_churn/data/load.py
+      hash: md5
+      md5: be742de4172b010290ae8ebd6aed6d83
+      size: 532
+    - path: src/bank_churn/data/preprocess.py
+      hash: md5
+      md5: 4ce82007cd046943845643867d44d2aa
+      size: 1803
+    - path: src/bank_churn/features/build.py
+      hash: md5
+      md5: 3e87d8d329ddb4b34bca57c19cc2458b
+      size: 4136
+    params:
+      params.yaml:
+        data:
+          raw_filename: churn.csv
+          test_size: 0.2
+          random_state: 42
+        features:
+          drop_columns:
+          - customer_id
+          - branch_code
+          - city
+          numeric:
+          - vintage
+          - age
+          - dependents
+          - current_balance
+          - previous_month_end_balance
+          - average_monthly_balance_prevQ
+          - average_monthly_balance_prevQ2
+          - current_month_credit
+          - previous_month_credit
+          - current_month_debit
+          - previous_month_debit
+          - current_month_balance
+          - previous_month_balance
+          - recency_days
+          categorical:
+          - gender
+          - occupation
+          - customer_nw_category
+    outs:
+    - path: data/processed/feature_meta.json
+      hash: md5
+      md5: c4326e889d78a3c9461a1837a6d0ec82
+      size: 672
+    - path: data/processed/test.csv
+      hash: md5
+      md5: bc23b1e50e6fbf99413f4445435fb465
+      size: 636765
+    - path: data/processed/train.csv
+      hash: md5
+      md5: a824876c36969dcae20fa0e38b44f749
+      size: 2545848
+  train:
+    cmd: python pipelines/train.py
+    deps:
+    - path: data/processed/feature_meta.json
+      hash: md5
+      md5: c4326e889d78a3c9461a1837a6d0ec82
+      size: 672
+    - path: data/processed/train.csv
+      hash: md5
+      md5: a824876c36969dcae20fa0e38b44f749
+      size: 2545848
+    - path: pipelines/train.py
+      hash: md5
+      md5: 5bbf44c1d329ec9b3f401fbf69145a4a
+      size: 866
+    - path: src/bank_churn/models/train.py
+      hash: md5
+      md5: 56e45a100552e6757382dadb23b0cbba
+      size: 2707
+    params:
+      params.yaml:
+        model:
+          name: random_forest
+          n_estimators: 200
+          max_depth: 8
+          min_samples_leaf: 5
+          class_weight: balanced
+    outs:
+    - path: models/model.joblib
+      hash: md5
+      md5: 1ad85dd7206cc5f8c44299603218c91d
+      size: 5329842
+  evaluate:
+    cmd: python pipelines/evaluate.py
+    deps:
+    - path: data/processed/feature_meta.json
+      hash: md5
+      md5: c4326e889d78a3c9461a1837a6d0ec82
+      size: 672
+    - path: data/processed/test.csv
+      hash: md5
+      md5: bc23b1e50e6fbf99413f4445435fb465
+      size: 636765
+    - path: models/model.joblib
+      hash: md5
+      md5: 1ad85dd7206cc5f8c44299603218c91d
+      size: 5329842
+    - path: pipelines/evaluate.py
+      hash: md5
+      md5: 915ff4470b319d79c27b665f0429c0ae
+      size: 786
+    - path: src/bank_churn/models/evaluate.py
+      hash: md5
+      md5: 5d9f4ebd3823980c9e6bc442abb70e16
+      size: 2565
+    outs:
+    - path: metrics/confusion_matrix.json
+      hash: md5
+      md5: 5759da14ef64c4bc0ad6ef28a59c2ca6
+      size: 276
+    - path: metrics/metrics.json
+      hash: md5
+      md5: b7dbf918e69a330f853456b270936f6d
+      size: 153
+    - path: metrics/roc.json
+      hash: md5
+      md5: bc2c5ad2309e678a2eb2ace3fdc9f817
+      size: 14912
