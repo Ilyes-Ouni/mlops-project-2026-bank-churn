@@ -33,6 +33,17 @@ pytest
 
 `dvc repro` runs `preprocess → train → evaluate`. Metrics land in `metrics/metrics.json` (F1, ROC-AUC, precision, recall). Processed CSVs and `models/model.joblib` stay in the DVC cache, not in Git.
 
+## MLflow Tracking
+
+Compare Logistic Regression, Random Forest, and XGBoost (falls back to `HistGradientBoosting` if XGBoost is missing):
+
+```bash
+python pipelines/mlflow_compare.py
+mlflow ui --backend-store-uri sqlite:///mlflow.db --port 5000
+```
+
+Open [http://127.0.0.1:5000](http://127.0.0.1:5000) and select the `bank-churn` experiment. Each run logs params, F1 / ROC-AUC / precision / recall, the fitted sklearn pipeline, and `confusion_matrix.json`.
+
 Raw data is versioned with DVC (`data/raw/churn.csv.dvc`). The CSV itself is not in Git. Source: [Kaggle — Bank Customer Churn Data](https://www.kaggle.com/datasets/pentakrishnakishore/bank-customer-churn-data).
 
 Poetry is also supported (`poetry install`).

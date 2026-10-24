@@ -34,6 +34,7 @@ data/processed/
 # MLflow / models
 mlruns/
 mlartifacts/
+mlflow.db
 models/artifacts/
 models/*.joblib
 
