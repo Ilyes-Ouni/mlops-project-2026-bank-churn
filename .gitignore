@@ -24,11 +24,12 @@ htmlcov/
 .mypy_cache/
 .ruff_cache/
 
-# DVC / data
-/data/
-*.dvc.cache/
+# DVC / data (CSV ignored; .dvc pointers are tracked)
+data/raw/*.csv
+data/processed/
 .dvc/cache/
 .dvc/tmp/
+.dvc_remote/
 
 # MLflow / models
 mlruns/
