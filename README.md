@@ -68,6 +68,16 @@ uvicorn bank_churn.serving.app:app --host 0.0.0.0 --port 8000
 
 Target latency is under 150 ms (see `latency_ms` on `/predict`).
 
+## Docker
+
+Multi-stage, non-root image (`python:3.11-slim`). After `dvc repro` (so `models/model.joblib` exists):
+
+```bash
+docker compose up --build
+```
+
+Then `GET http://127.0.0.1:8000/health` and Swagger at `/docs`. The serving image installs `requirements-serve.txt` only (no MLflow / XGBoost) to keep the layer smaller.
+
 Raw data is versioned with DVC (`data/raw/churn.csv.dvc`). The CSV itself is not in Git. Source: [Kaggle — Bank Customer Churn Data](https://www.kaggle.com/datasets/pentakrishnakishore/bank-customer-churn-data).
 
 Poetry is also supported (`poetry install`).
