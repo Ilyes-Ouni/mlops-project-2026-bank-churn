@@ -44,6 +44,16 @@ mlflow ui --backend-store-uri sqlite:///mlflow.db --port 5000
 
 Open [http://127.0.0.1:5000](http://127.0.0.1:5000) and select the `bank-churn` experiment. Each run logs params, F1 / ROC-AUC / precision / recall, the fitted sklearn pipeline, and `confusion_matrix.json`.
 
+### Model Registry
+
+A run becomes **champion** only if **F1 ≥ 0.55** and **ROC-AUC ≥ 0.80** (synopsis targets). Among eligible runs, the highest F1 wins. Promotion path: Staging → Production, plus alias `champion`.
+
+```bash
+python pipelines/register_champion.py
+```
+
+Serving loads `models:/bank-churn@champion` (fallback: `models:/bank-churn/Production`).
+
 Raw data is versioned with DVC (`data/raw/churn.csv.dvc`). The CSV itself is not in Git. Source: [Kaggle — Bank Customer Churn Data](https://www.kaggle.com/datasets/pentakrishnakishore/bank-customer-churn-data).
 
 Poetry is also supported (`poetry install`).
