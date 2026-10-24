@@ -1,0 +1,13 @@
+{
+  "model_name": "bank-churn",
+  "version": "1",
+  "candidate": "xgboost",
+  "f1": 0.6106000876040298,
+  "roc_auc": 0.8382649265234817,
+  "promotion": ["Staging", "Production", "alias:champion"],
+  "load_uri": "models:/bank-churn@champion",
+  "criteria": {
+    "min_f1": 0.55,
+    "min_roc_auc": 0.80
+  }
+}
