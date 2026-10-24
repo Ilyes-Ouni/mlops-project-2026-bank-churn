@@ -1,0 +1,11 @@
+---
+description: Git commits must be authored only as Ilyes — never Cursor co-author
+alwaysApply: true
+---
+
+# Git authorship
+
+- All commits must be authored and committed as **Ilyes-Ouni** / the user's configured `user.name` and `user.email` only.
+- **Never** add `Co-authored-by: Cursor` or `cursoragent@cursor.com` (or any Cursor Agent trailer) to commit messages.
+- If a hook or tool injects a Cursor co-author trailer, strip it before pushing.
+- Do not attribute work to CursorAgent in README, LICENSE, or GitHub metadata.
