@@ -1,0 +1,22 @@
+[
+  {
+    "actual": 0,
+    "predicted": 0,
+    "count": 3995
+  },
+  {
+    "actual": 0,
+    "predicted": 1,
+    "count": 630
+  },
+  {
+    "actual": 1,
+    "predicted": 0,
+    "count": 351
+  },
+  {
+    "actual": 1,
+    "predicted": 1,
+    "count": 701
+  }
+]

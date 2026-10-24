@@ -27,8 +27,11 @@ python -m pip install -e ".[dev]"
 pre-commit install
 python scripts/download_raw_data.py
 dvc checkout
+dvc repro
 pytest
 ```
+
+`dvc repro` runs `preprocess → train → evaluate`. Metrics land in `metrics/metrics.json` (F1, ROC-AUC, precision, recall). Processed CSVs and `models/model.joblib` stay in the DVC cache, not in Git.
 
 Raw data is versioned with DVC (`data/raw/churn.csv.dvc`). The CSV itself is not in Git. Source: [Kaggle — Bank Customer Churn Data](https://www.kaggle.com/datasets/pentakrishnakishore/bank-customer-churn-data).
 
