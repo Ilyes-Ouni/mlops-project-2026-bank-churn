@@ -9,6 +9,11 @@ def test_raw_csv_path() -> None:
     assert raw_csv_path().name == "churn.csv"
 
 
+def test_load_raw_missing_file() -> None:
+    with pytest.raises(FileNotFoundError, match="download_raw_data"):
+        load_raw("does-not-exist.csv")
+
+
 @pytest.mark.skipif(not Path("data/raw/churn.csv").exists(), reason="raw data not pulled")
 def test_load_raw_shape() -> None:
     frame = load_raw()
