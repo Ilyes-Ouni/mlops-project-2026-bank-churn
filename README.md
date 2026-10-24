@@ -23,12 +23,16 @@ End-to-end MLOps platform for **bank customer churn prediction** (module project
 ```bash
 git clone https://github.com/Ilyes-Ouni/mlops-project-2026-bank-churn.git
 cd mlops-project-2026-bank-churn
-# Coming in Jalon 1–2: poetry install && dvc pull && pytest
+python -m pip install -e ".[dev]"
+pre-commit install
+pytest
 ```
+
+Poetry is also supported (`poetry install`).
 
 ## Project tracking
 
-Linear project: [MLOps 2026 — Bank Customer Churn](https://linear.app/loxara/project/mlops-2026-bank-customer-churn-a238a69e503e)
+Linear project: [MLOps 2026 — Bank Customer Churn](https://linear.app/mlops-2026/project/mlops-2026-bank-customer-churn-057761a7741e)
 
 ## License
 
