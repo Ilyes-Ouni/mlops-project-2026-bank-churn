@@ -1,0 +1,9 @@
+data:
+  raw_filename: churn.csv
+  test_size: 0.2
+  random_state: 42
+
+model:
+  name: random_forest
+  n_estimators: 200
+  max_depth: 8
