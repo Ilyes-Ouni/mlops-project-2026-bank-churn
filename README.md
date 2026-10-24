@@ -25,8 +25,12 @@ git clone https://github.com/Ilyes-Ouni/mlops-project-2026-bank-churn.git
 cd mlops-project-2026-bank-churn
 python -m pip install -e ".[dev]"
 pre-commit install
+python scripts/download_raw_data.py
+dvc checkout
 pytest
 ```
+
+Raw data is versioned with DVC (`data/raw/churn.csv.dvc`). The CSV itself is not in Git. Source: [Kaggle — Bank Customer Churn Data](https://www.kaggle.com/datasets/pentakrishnakishore/bank-customer-churn-data).
 
 Poetry is also supported (`poetry install`).
 
