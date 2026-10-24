@@ -54,6 +54,20 @@ python pipelines/register_champion.py
 
 Serving loads `models:/bank-churn@champion` (fallback: `models:/bank-churn/Production`).
 
+## Inference API
+
+```bash
+# uses models/model.joblib from `dvc repro`, or BANK_CHURN_MODEL_PATH, or the MLflow champion
+uvicorn bank_churn.serving.app:app --host 0.0.0.0 --port 8000
+```
+
+- `GET /health`
+- `POST /predict` (single `ChurnFeatures` body)
+- `POST /predict/batch` (`{"instances": [...]}`)
+- Swagger: http://127.0.0.1:8000/docs
+
+Target latency is under 150 ms (see `latency_ms` on `/predict`).
+
 Raw data is versioned with DVC (`data/raw/churn.csv.dvc`). The CSV itself is not in Git. Source: [Kaggle — Bank Customer Churn Data](https://www.kaggle.com/datasets/pentakrishnakishore/bank-customer-churn-data).
 
 Poetry is also supported (`poetry install`).

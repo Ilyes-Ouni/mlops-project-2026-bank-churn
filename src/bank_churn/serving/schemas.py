@@ -80,6 +80,7 @@ class PredictResponse(BaseModel):
     churn_probability: float = Field(ge=0, le=1)
     churn_label: Literal[0, 1]
     model_name: str = "bank-churn"
+    latency_ms: float | None = None
 
 
 class BatchPredictResponse(BaseModel):
