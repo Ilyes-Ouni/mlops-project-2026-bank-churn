@@ -1,5 +1,7 @@
 # MLOps 2026 — Bank Customer Churn
 
+[![CI](https://github.com/Ilyes-Ouni/mlops-project-2026-bank-churn/actions/workflows/ci.yml/badge.svg)](https://github.com/Ilyes-Ouni/mlops-project-2026-bank-churn/actions/workflows/ci.yml)
+
 End-to-end MLOps platform for **bank customer churn prediction** (module project).
 
 ## Dataset
@@ -81,6 +83,10 @@ Then `GET http://127.0.0.1:8000/health` and Swagger at `/docs`. The serving imag
 Raw data is versioned with DVC (`data/raw/churn.csv.dvc`). The CSV itself is not in Git. Source: [Kaggle — Bank Customer Churn Data](https://www.kaggle.com/datasets/pentakrishnakishore/bank-customer-churn-data).
 
 Poetry is also supported (`poetry install`).
+
+## CI
+
+GitHub Actions (`.github/workflows/ci.yml`) runs Ruff, Black, Flake8, and Pytest on every pull request and push to `main`. Merge through a PR — do not push experimental work straight to `main`.
 
 ## Project tracking
 

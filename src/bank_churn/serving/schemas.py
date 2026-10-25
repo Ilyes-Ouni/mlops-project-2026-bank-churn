@@ -64,7 +64,9 @@ class ChurnFeatures(BaseModel):
         return str(value)
 
     def to_dataframe(self) -> pd.DataFrame:
-        return pd.DataFrame([self.model_dump()], columns=[*NUMERIC_FIELDS, *CATEGORICAL_FIELDS])
+        return pd.DataFrame(
+            [self.model_dump()], columns=[*NUMERIC_FIELDS, *CATEGORICAL_FIELDS]
+        )
 
 
 class BatchPredictRequest(BaseModel):
@@ -72,7 +74,9 @@ class BatchPredictRequest(BaseModel):
     instances: list[ChurnFeatures] = Field(min_length=1)
 
     def to_dataframe(self) -> pd.DataFrame:
-        return pd.concat([row.to_dataframe() for row in self.instances], ignore_index=True)
+        return pd.concat(
+            [row.to_dataframe() for row in self.instances], ignore_index=True
+        )
 
 
 class PredictResponse(BaseModel):

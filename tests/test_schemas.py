@@ -1,7 +1,11 @@
 import pytest
 from pydantic import ValidationError
 
-from bank_churn.serving.schemas import BatchPredictRequest, ChurnFeatures, PredictResponse
+from bank_churn.serving.schemas import (
+    BatchPredictRequest,
+    ChurnFeatures,
+    PredictResponse,
+)
 
 
 def _valid_payload() -> dict:
@@ -63,7 +67,9 @@ def test_null_gender_becomes_unknown() -> None:
 def test_batch_requires_at_least_one_instance() -> None:
     with pytest.raises(ValidationError):
         BatchPredictRequest.model_validate({"instances": []})
-    batch = BatchPredictRequest.model_validate({"instances": [_valid_payload(), _valid_payload()]})
+    batch = BatchPredictRequest.model_validate(
+        {"instances": [_valid_payload(), _valid_payload()]}
+    )
     assert len(batch.to_dataframe()) == 2
 
 

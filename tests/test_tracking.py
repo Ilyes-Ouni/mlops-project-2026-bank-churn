@@ -60,7 +60,11 @@ def test_compare_models_logs_two_runs(tmp_path: Path) -> None:
     ranking = compare_models(
         train,
         test,
-        numeric=[c for c in train.columns if c not in {"churn", "gender", "occupation", "customer_nw_category"}],
+        numeric=[
+            c
+            for c in train.columns
+            if c not in {"churn", "gender", "occupation", "customer_nw_category"}
+        ],
         categorical=["gender", "occupation", "customer_nw_category"],
         params=params,
     )

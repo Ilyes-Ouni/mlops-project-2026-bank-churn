@@ -76,7 +76,9 @@ def log_run(
     metrics = report["metrics"]
 
     features, _ = split_xy(train_frame, numeric, categorical)
-    signature = infer_signature(features.head(20), pipeline.predict_proba(features.head(20)))
+    signature = infer_signature(
+        features.head(20), pipeline.predict_proba(features.head(20))
+    )
 
     with mlflow.start_run(run_name=name):
         if experiment:
@@ -118,7 +120,9 @@ def compare_models(
 ) -> list[dict[str, Any]]:
     params = params or load_params()
     experiment = configure_tracking(params)
-    specs = candidates or list(params.get("mlflow", {}).get("candidates", DEFAULT_CANDIDATES))
+    specs = candidates or list(
+        params.get("mlflow", {}).get("candidates", DEFAULT_CANDIDATES)
+    )
     results: list[dict[str, Any]] = []
     for model_cfg in specs:
         cfg = dict(model_cfg)
