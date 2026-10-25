@@ -58,14 +58,18 @@ def add_recency_days(
     return out, pd.Timestamp(reference_date)
 
 
-def drop_unused(frame: pd.DataFrame, drop_columns: list[str] | None = None) -> pd.DataFrame:
+def drop_unused(
+    frame: pd.DataFrame, drop_columns: list[str] | None = None
+) -> pd.DataFrame:
     columns = list(drop_columns or DEFAULT_DROP)
     if "last_transaction" in frame.columns:
         columns.append("last_transaction")
     return frame.drop(columns=[c for c in columns if c in frame.columns])
 
 
-def model_feature_lists(params: dict[str, Any] | None = None) -> tuple[list[str], list[str]]:
+def model_feature_lists(
+    params: dict[str, Any] | None = None,
+) -> tuple[list[str], list[str]]:
     features = (params or {}).get("features", {})
     numeric = list(features.get("numeric", [*DEFAULT_NUMERIC_RAW, "recency_days"]))
     categorical = list(features.get("categorical", DEFAULT_CATEGORICAL))

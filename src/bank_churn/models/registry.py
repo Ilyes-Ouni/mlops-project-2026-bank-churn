@@ -37,7 +37,8 @@ def select_champion(
     eligible = [
         row
         for row in rows
-        if float(row.get("f1", 0)) >= min_f1 and float(row.get("roc_auc", 0)) >= min_roc_auc
+        if float(row.get("f1", 0)) >= min_f1
+        and float(row.get("roc_auc", 0)) >= min_roc_auc
     ]
     if not eligible:
         return None
@@ -69,7 +70,9 @@ def list_scored_runs(experiment: str) -> list[dict[str, Any]]:
     return rows
 
 
-def _promote(client: MlflowClient, model_name: str, version: str, alias: str) -> list[str]:
+def _promote(
+    client: MlflowClient, model_name: str, version: str, alias: str
+) -> list[str]:
     path: list[str] = []
     for stage in ("Staging", "Production"):
         try:

@@ -30,10 +30,16 @@ def test_select_champion_empty() -> None:
     assert select_champion([]) is None
 
 
-def test_register_champion_requires_eligible_runs(monkeypatch: pytest.MonkeyPatch) -> None:
+def test_register_champion_requires_eligible_runs(
+    monkeypatch: pytest.MonkeyPatch,
+) -> None:
     from bank_churn.models import registry
 
-    monkeypatch.setattr(registry, "configure_tracking", lambda params=None: "bank-churn")
+    monkeypatch.setattr(
+        registry, "configure_tracking", lambda params=None: "bank-churn"
+    )
     monkeypatch.setattr(registry, "list_scored_runs", lambda experiment: [])
     with pytest.raises(ValueError, match="No run meets"):
-        registry.register_champion({"mlflow": {"experiment": "bank-churn"}, "registry": {}})
+        registry.register_champion(
+            {"mlflow": {"experiment": "bank-churn"}, "registry": {}}
+        )

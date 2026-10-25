@@ -7,7 +7,11 @@ from contextlib import asynccontextmanager
 
 from fastapi import FastAPI, HTTPException
 
-from bank_churn.serving.model import load_serving_model, predict_proba, resolve_model_path
+from bank_churn.serving.model import (
+    load_serving_model,
+    predict_proba,
+    resolve_model_path,
+)
 from bank_churn.serving.schemas import (
     BatchPredictRequest,
     BatchPredictResponse,
@@ -50,7 +54,11 @@ def health() -> dict[str, object]:
     return {
         "status": "ok" if loaded else "degraded",
         "model_loaded": loaded,
-        "model_path": str(resolve_model_path()) if resolve_model_path() else "mlflow://bank-churn@champion",
+        "model_path": (
+            str(resolve_model_path())
+            if resolve_model_path()
+            else "mlflow://bank-churn@champion"
+        ),
     }
 
 
@@ -60,7 +68,9 @@ def predict(payload: ChurnFeatures) -> PredictResponse:
     try:
         probability = predict_proba(payload.to_dataframe())[0]
     except Exception as exc:
-        raise HTTPException(status_code=503, detail=f"Model unavailable: {exc}") from exc
+        raise HTTPException(
+            status_code=503, detail=f"Model unavailable: {exc}"
+        ) from exc
     response = _to_response(probability)
     response.latency_ms = round((time.perf_counter() - started) * 1000, 2)
     return response
@@ -71,5 +81,7 @@ def predict_batch(payload: BatchPredictRequest) -> BatchPredictResponse:
     try:
         scores = predict_proba(payload.to_dataframe())
     except Exception as exc:
-        raise HTTPException(status_code=503, detail=f"Model unavailable: {exc}") from exc
+        raise HTTPException(
+            status_code=503, detail=f"Model unavailable: {exc}"
+        ) from exc
     return BatchPredictResponse(predictions=[_to_response(score) for score in scores])

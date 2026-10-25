@@ -38,12 +38,18 @@ def _tiny() -> pd.DataFrame:
 
 def test_make_estimator_logreg_and_forest() -> None:
     assert make_estimator({"name": "logreg"}).__class__.__name__ == "LogisticRegression"
-    assert make_estimator({"name": "random_forest", "n_estimators": 10}).n_estimators == 10
+    assert (
+        make_estimator({"name": "random_forest", "n_estimators": 10}).n_estimators == 10
+    )
 
 
 def test_train_and_evaluate_on_tiny_frame() -> None:
     engineered, _ = build_features(_tiny(), params={"features": {}})
-    numeric = [c for c in engineered.columns if c not in {"churn", "gender", "occupation", "customer_nw_category"}]
+    numeric = [
+        c
+        for c in engineered.columns
+        if c not in {"churn", "gender", "occupation", "customer_nw_category"}
+    ]
     categorical = ["gender", "occupation", "customer_nw_category"]
     train = engineered.iloc[:16]
     test = engineered.iloc[16:]

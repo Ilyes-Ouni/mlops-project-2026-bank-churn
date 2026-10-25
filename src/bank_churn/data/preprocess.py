@@ -34,7 +34,9 @@ def split_train_test(
     return train.reset_index(drop=True), test.reset_index(drop=True)
 
 
-def run_preprocess(params: dict[str, Any] | None = None) -> tuple[pd.DataFrame, pd.DataFrame]:
+def run_preprocess(
+    params: dict[str, Any] | None = None,
+) -> tuple[pd.DataFrame, pd.DataFrame]:
     params = params or load_params()
     data_cfg = params.get("data", {})
     raw = load_raw(data_cfg.get("raw_filename", "churn.csv"))

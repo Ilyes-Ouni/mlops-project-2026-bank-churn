@@ -14,7 +14,9 @@ def test_load_raw_missing_file() -> None:
         load_raw("does-not-exist.csv")
 
 
-@pytest.mark.skipif(not Path("data/raw/churn.csv").exists(), reason="raw data not pulled")
+@pytest.mark.skipif(
+    not Path("data/raw/churn.csv").exists(), reason="raw data not pulled"
+)
 def test_load_raw_shape() -> None:
     frame = load_raw()
     assert len(frame) == 28382

@@ -69,7 +69,9 @@ def persist_reports(report: dict[str, Any]) -> None:
     write_json(CONFUSION_PATH, report["confusion_matrix"])
 
 
-def downsample_roc(points: list[dict[str, float]], max_points: int = 200) -> list[dict[str, float]]:
+def downsample_roc(
+    points: list[dict[str, float]], max_points: int = 200
+) -> list[dict[str, float]]:
     if len(points) <= max_points:
         return points
     idx = np.linspace(0, len(points) - 1, max_points, dtype=int)

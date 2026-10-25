@@ -58,6 +58,8 @@ def test_predict_rejects_bad_schema(client: TestClient) -> None:
 
 
 def test_predict_batch(client: TestClient) -> None:
-    response = client.post("/predict/batch", json={"instances": [valid_payload(), valid_payload()]})
+    response = client.post(
+        "/predict/batch", json={"instances": [valid_payload(), valid_payload()]}
+    )
     assert response.status_code == 200
     assert len(response.json()["predictions"]) == 2
